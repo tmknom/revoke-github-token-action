@@ -1,23 +1,35 @@
-name: Rename me
+name: Revoke GitHub Token
 description: |
-  Template repository for creating Composite Action with GitHub Actions.
+  This action revokes a specified GitHub Apps installation access token.
+  While installation access tokens automatically expire after one hour, this action allows you to revoke them immediately for enhanced security.
+  To ensure uninterrupted workflows, this action is designed to succeed even if an error occurs during execution.
 
   ## Usage
 
-  Write usage for your Composite Action.
-
   ```yaml
     steps:
-      - name: Template
-        uses: tmknom/template-composite-action@v0
+      - name: Revoke GitHub Token
+        uses: tmknom/revoke-github-token-action@v0
+        with:
+          token: <your-gitHub-installation-access-token>
   ```
+
+inputs:
+  token:
+    required: true
+    description: GitHub installation access token.
 
 runs:
   using: composite
 
   steps:
-    - name: Run
-      shell: bash
+    - name: Revoke
+      env:
+        TOKEN: ${{ inputs.token }}
       run: |
-        set -x
-        echo "Write steps"
+        curl --location --request DELETE \
+          --url "${GITHUB_API_URL}/installation/token" \
+          --header "Accept: application/vnd.github+json" \
+          --header "X-GitHub-Api-Version: 2022-11-28" \
+          --header "Authorization: Bearer ${TOKEN}" || true
+      shell: bash
