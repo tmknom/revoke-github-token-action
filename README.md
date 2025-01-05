@@ -1,26 +1,30 @@
-# template-composite-action
+# revoke-github-token-action
 
-Template repository for Composite Action.
+Revoke an installation access token using GitHub Apps for GitHub Actions.
 
 <!-- actdocs start -->
 
 ## Description
 
-Template repository for creating Composite Action with GitHub Actions.
+This action revokes a specified GitHub Apps installation access token.
+While installation access tokens automatically expire after one hour, this action allows you to revoke them immediately for enhanced security.
+To ensure uninterrupted workflows, this action is designed to succeed even if an error occurs during execution.
 
 ## Usage
 
-Write usage for your Composite Action.
-
 ```yaml
   steps:
-    - name: Template
-      uses: tmknom/template-composite-action@v0
+    - name: Revoke GitHub Token
+      uses: tmknom/revoke-github-token-action@v0
+      with:
+        token: <your-gitHub-installation-access-token>
 ```
 
 ## Inputs
 
-N/A
+| Name | Description | Default | Required |
+| :--- | :---------- | :------ | :------: |
+| token | GitHub installation access token. | n/a | yes |
 
 ## Outputs
 
@@ -38,10 +42,11 @@ N/A
 
 ## Related projects
 
-N/A
+- [generate-github-token-action](https://github.com/tmknom/generate-github-token-action): Generate an installation access token using GitHub Apps for GitHub Actions.
+- [private-generate-github-token-action](https://github.com/tmknom/private-generate-github-token-action): Generate an installation access token for personal use.
 
 ## Release notes
 
 See [GitHub Releases][releases].
 
-[releases]: https://github.com/tmknom/template-composite-action/releases
+[releases]: https://github.com/tmknom/revoke-github-token-action/releases
