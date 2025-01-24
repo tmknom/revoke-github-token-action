@@ -29,7 +29,7 @@ jobs:
 
       - name: Setup - generate token
         id: setup
-        uses: tmknom/private-generate-github-token-action@5c20840eb763bac6f4d140eb31b44a92fb17273d # v0.3.0
+        uses: tmknom/private-generate-github-token-action@41cba24e4afced942f1cebdb7b7bd7335b97e275 # v0.3.1
         with:
           repositories: ${{ vars.REPOSITORY }}
 
