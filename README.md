@@ -6,9 +6,13 @@ Revoke an installation access token using GitHub Apps for GitHub Actions.
 
 ## Description
 
-This action revokes a specified GitHub Apps installation access token.
-While installation access tokens automatically expire after one hour, this action allows you to revoke them immediately for enhanced security.
-To ensure uninterrupted workflows, this action is designed to succeed even if an error occurs during execution.
+This action revokes a specified GitHub App installation access token.
+While these tokens automatically expire after one hour, you can revoke them anytime for added security.
+
+To prevent workflow failures, this action **always returns a successful status**,
+even if the token has already been revoked or an error occurs during execution.
+All errors, including GitHub API failures, are ignored to ensure workflows run smoothly.
+See the [FAQ](#what-happens-if-the-token-is-already-invalid) for more details on this approach.
 
 ## Usage
 
@@ -24,7 +28,7 @@ To ensure uninterrupted workflows, this action is designed to succeed even if an
 
 | Name | Description | Default | Required |
 | :--- | :---------- | :------ | :------: |
-| token | GitHub installation access token. | n/a | yes |
+| token | GitHub App installation access token. | n/a | yes |
 
 ## Outputs
 
