@@ -7,12 +7,12 @@ Revoke a GitHub App installation access token in GitHub Actions.
 ## Description
 
 This action revokes a specified GitHub App installation access token.
-Although these tokens automatically expire after one hour, manual revocation enhances security.
+Although these tokens automatically expire after one hour, immediate revocation enhances security.
 
-To prevent workflow failures, this action **always succeeds**,
-even if the token is already revoked or an error occurs.
-All errors are ignored, allowing workflows to continue running smoothly.
-See the [FAQ](#what-happens-if-the-token-is-already-invalid) for more details on this behavior.
+To prevent workflow failures, this action **always succeeds**.
+Even if the token has already been revoked or an API error occurs,
+the action will return a success status to prevent workflow disruptions.
+See the [FAQ](#faq) for more details on this behavior.
 
 ## Usage
 
@@ -28,7 +28,7 @@ See the [FAQ](#what-happens-if-the-token-is-already-invalid) for more details on
 
 | Name | Description | Default | Required |
 | :--- | :---------- | :------ | :------: |
-| token | GitHub App installation access token. | n/a | yes |
+| token | The GitHub App installation access token to revoke. | n/a | yes |
 
 ## Outputs
 
@@ -42,7 +42,7 @@ This action does not require any additional `GITHUB_TOKEN` permissions.
 
 ## Why
 
-GitHub App installation access tokens grant scoped permissions for automation and remain valid until they expire.
+GitHub App installation access tokens provide scoped permissions for automation and remain valid until they expire.
 However, immediate revocation may be necessary in certain scenarios, such as:
 
 - Reducing the window of exposure after token use
@@ -72,7 +72,7 @@ Ensure all necessary API calls are completed before revoking the token.
 
 ### What happens if the token is already invalid?
 
-This action always succeeds, even if the token is already invalid or a GitHub API error occurs.
+This action always succeeds, **even if the token is already invalid or a GitHub API error occurs**.
 Failing the workflow in such cases provides little benefit because:
 
 - If revocation fails due to a temporary GitHub API issue, the token will still expire automatically within an hour.
@@ -82,13 +82,13 @@ Failing the workflow in such cases provides little benefit because:
 ### Does this action affect `GITHUB_TOKEN`?
 
 No.
-This action does not impact `GITHUB_TOKEN`, which is managed separately from GitHub App installation tokens.
+This action does not affect `GITHUB_TOKEN`, which is managed separately from GitHub App installation tokens.
 If you use `GITHUB_TOKEN` for `actions/checkout` or other workflows, they will continue to function as expected.
 
-### Does this action support personal access tokens (PATs)?
+### Does this action affect Personal Access Tokens (PATs)?
 
 No.
-This action is specifically designed for GitHub App installation access tokens.
+This action does not affect PATs, which is managed separately from GitHub App installation tokens.
 PATs require different revocation methods, which are not covered here.
 
 ## Related Projects
@@ -104,6 +104,9 @@ See [GitHub Releases][releases].
 
 ## Administration
 
+<details>
+<summary>Click to expand repository administrator guide</summary>
+
 This section provides guidance for repository administrators on configuration settings that are managed outside the codebase.
 
 ### Repository Secrets
@@ -113,7 +116,7 @@ The following secrets are stored in Repository Secrets for use in the [test work
 - `TESTING_APP_ID`: The ID of the GitHub App `Testing for tmknom`.
 - `TESTING_APP_PRIVATE_KEY`: The private key of the GitHub App `Testing for tmknom`.
 
-These secrets are used for authenticating the GitHub App.
+These secrets authenticate the GitHub App.
 
 > [!NOTE]
 >
@@ -130,3 +133,5 @@ The following variables are stored in Repository Variables for use in the [test 
 
 These values are not sensitive.
 Since Repository Secrets cannot be accessed after being set, non-sensitive values are stored as Repository Variables for easier management.
+
+</details>
