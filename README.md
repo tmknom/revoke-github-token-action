@@ -101,3 +101,32 @@ PATs require different revocation methods, which are not covered here.
 See [GitHub Releases][releases].
 
 [releases]: https://github.com/tmknom/revoke-github-token-action/releases
+
+## Administration
+
+This section provides guidance for repository administrators on configuration settings that are managed outside the codebase.
+
+### Repository Secrets
+
+The following secrets are stored in Repository Secrets for use in the [test workflow](/.github/workflows/test.yml):
+
+- `TESTING_APP_ID`: The ID of the GitHub App `Testing for tmknom`.
+- `TESTING_APP_PRIVATE_KEY`: The private key of the GitHub App `Testing for tmknom`.
+
+These secrets are used for authenticating the GitHub App.
+
+> [!NOTE]
+>
+> `Testing for tmknom` is a GitHub App used exclusively for testing workflows.
+> For more details, see the [internal-docs](https://github.com/tmknom/internal-docs) repository (private).
+
+### Repository Variables
+
+The following variables are stored in Repository Variables for use in the [test workflow](/.github/workflows/test.yml):
+
+- `TESTING_REPOSITORY`: The private repository accessed by the test workflow.
+- `TESTING_REPOSITORY_FIRST_COMMIT`: The hash of the initial commit in this repository.
+- `TESTING_APP_PRIVATE_KEY_FINGERPRINT`: The fingerprint of the private key for the GitHub App `Testing for tmknom`.
+
+These values are not sensitive.
+Since Repository Secrets cannot be accessed after being set, non-sensitive values are stored as Repository Variables for easier management.
