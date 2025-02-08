@@ -19,6 +19,7 @@ See the [FAQ](#what-happens-if-the-token-is-already-invalid) for more details on
 ```yaml
   steps:
     - name: Revoke GitHub Token
+      if: ${{ always() }}
       uses: tmknom/revoke-github-token-action@v0
       with:
         token: <your-github-installation-access-token>

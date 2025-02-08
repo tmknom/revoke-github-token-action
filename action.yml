@@ -13,6 +13,7 @@ description: |
   ```yaml
     steps:
       - name: Revoke GitHub Token
+        if: ${{ always() }}
         uses: tmknom/revoke-github-token-action@v0
         with:
           token: <your-github-installation-access-token>
