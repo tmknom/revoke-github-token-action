@@ -33,19 +33,19 @@ jobs:
         with:
           app-id: ${{ secrets.TESTING_APP_ID }}
           app-private-key: ${{ secrets.TESTING_APP_PRIVATE_KEY }}
-          repositories: ${{ vars.REPOSITORY }}
+          repositories: ${{ vars.TESTING_REPOSITORY }}
 
       - name: Setup - check generated token
         env:
-          REPOSITORY: ${{ vars.REPOSITORY }}
-          FIRST_COMMIT_SHA: ${{ vars.FIRST_COMMIT_SHA }}
+          REPOSITORY: ${{ vars.TESTING_REPOSITORY }}
+          FIRST_COMMIT: ${{ vars.TESTING_REPOSITORY_FIRST_COMMIT }}
           GH_TOKEN: ${{ steps.setup.outputs.token }}
         run: |
           set -x
           message="$(gh api \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            "/repos/${GITHUB_REPOSITORY_OWNER}/${REPOSITORY}/commits/${FIRST_COMMIT_SHA}" \
+            "/repos/${GITHUB_REPOSITORY_OWNER}/${REPOSITORY}/commits/${FIRST_COMMIT}" \
             | jq -r '.commit.message')"
           test "$?" = "0"
           test "${message}" = "Initial commit"
@@ -57,14 +57,14 @@ jobs:
 
       - name: Verify
         env:
-          REPOSITORY: ${{ vars.REPOSITORY }}
-          FIRST_COMMIT_SHA: ${{ vars.FIRST_COMMIT_SHA }}
+          REPOSITORY: ${{ vars.TESTING_REPOSITORY }}
+          FIRST_COMMIT: ${{ vars.TESTING_REPOSITORY_FIRST_COMMIT }}
           GH_TOKEN: ${{ steps.setup.outputs.token }}
         run: |
           set -x
           gh api \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            "/repos/${GITHUB_REPOSITORY_OWNER}/${REPOSITORY}/commits/${FIRST_COMMIT_SHA}" \
+            "/repos/${GITHUB_REPOSITORY_OWNER}/${REPOSITORY}/commits/${FIRST_COMMIT}" \
             || ret="$?"
           test "${ret}" = "1"
